@@ -12,45 +12,39 @@ type assert struct {
 	NotEqual func(exp, act interface{})
 	Nil      func(item interface{})
 	NotNil   func(item interface{})
+	True     func(item interface{})
+	False    func(item interface{})
 }
 
 func New(t *testing.T) assert {
 	return assert{
-		Equal:    isEqual(t),
-		NotEqual: isNotEqual(t),
-		Nil:      isNil(t),
-		NotNil:   isNotNil(t),
+		Equal:    pairCheck(t, isEqual),
+		NotEqual: pairCheck(t, isNotEqual),
+		Nil:      monoCheck(t, nil, isEqual),
+		NotNil:   monoCheck(t, nil, isNotEqual),
+		True:     monoCheck(t, true, isEqual),
+		False:    monoCheck(t, true, isNotEqual),
 	}
 }
 
-func isEqual(t *testing.T) func(exp, act interface{}) {
-	return func(exp, act interface{}) {
-		if !reflect.DeepEqual(exp, act) {
-			printErr(t, exp, act)
-		}
-	}
+func isEqual(exp, act interface{}) bool {
+	return reflect.DeepEqual(exp, act)
 }
 
-func isNotEqual(t *testing.T) func(exp, act interface{}) {
-	return func(exp, act interface{}) {
-		if reflect.DeepEqual(exp, act) {
-			printErr(t, exp, act)
-		}
-	}
+func isNotEqual(exp, act interface{}) bool {
+	return !reflect.DeepEqual(exp, act)
 }
 
-func isNil(t *testing.T) func(item interface{}) {
+func monoCheck(t *testing.T, exp interface{}, eq func(exp, act interface{}) bool) func(item interface{}) {
 	return func(item interface{}) {
-		if item != nil {
-			printErr(t, nil, item)
-		}
+		pairCheck(t, eq)(exp, item)
 	}
 }
 
-func isNotNil(t *testing.T) func(item interface{}) {
-	return func(item interface{}) {
-		if item == nil {
-			printErr(t, nil, item)
+func pairCheck(t *testing.T, cond func(exp, act interface{}) bool) func(exp, act interface{}) {
+	return func(exp, act interface{}) {
+		if !cond(exp, act) {
+			printErr(t, exp, act)
 		}
 	}
 }

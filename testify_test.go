@@ -121,3 +121,65 @@ func TestIsNotNil(t *testing.T) {
 		}
 	}
 }
+
+func TestIsTrue(t *testing.T) {
+	tests := []struct {
+		act    interface{}
+		isTrue bool
+	}{
+		{act: 2, isTrue: false},
+		{act: int64(2), isTrue: false},
+		{act: nil, isTrue: false},
+		{act: "", isTrue: false},
+		{act: 2.34, isTrue: false},
+		{act: true, isTrue: true},
+		{act: map[string]string{}, isTrue: false},
+		{act: false, isTrue: false},
+		{act: (10 > 5), isTrue: true},
+		{act: (10 == 5), isTrue: false},
+		{act: (10 < 5), isTrue: false},
+	}
+
+	for _, test := range tests {
+		asrt := New(t)
+		ok := true
+		printErr = func(t *testing.T, exp, act interface{}) {
+			ok = false
+		}
+		asrt.True(test.act)
+		if ok != test.isTrue {
+			t.Errorf("Expected %v, actual: %v", test.isTrue, ok)
+		}
+	}
+}
+
+func TestIsFalse(t *testing.T) {
+	tests := []struct {
+		act     interface{}
+		isFalse bool
+	}{
+		{act: 2, isFalse: true},
+		{act: int64(2), isFalse: true},
+		{act: nil, isFalse: true},
+		{act: "", isFalse: true},
+		{act: 2.34, isFalse: true},
+		{act: true, isFalse: false},
+		{act: map[string]string{}, isFalse: true},
+		{act: false, isFalse: true},
+		{act: (10 > 5), isFalse: false},
+		{act: (10 == 5), isFalse: true},
+		{act: (10 < 5), isFalse: true},
+	}
+
+	for _, test := range tests {
+		asrt := New(t)
+		ok := true
+		printErr = func(t *testing.T, exp, act interface{}) {
+			ok = false
+		}
+		asrt.False(test.act)
+		if ok != test.isFalse {
+			t.Errorf("Expected %v, actual: %v", test.isFalse, ok)
+		}
+	}
+}

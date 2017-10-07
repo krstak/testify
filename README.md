@@ -16,5 +16,7 @@ func TestTestify(t *testing.T) {
     assert.NotEqual("car", "street")
     assert.Nil(nil)
     assert.NotNil("house")
+    assert.True(10 > 2)
+    assert.False(10 == 2)
 }
 ```
