@@ -7,23 +7,26 @@ import (
 	"testing"
 )
 
-type assert struct {
-	Equal    func(exp, act interface{})
-	NotEqual func(exp, act interface{})
-	Nil      func(item interface{})
-	NotNil   func(item interface{})
-	True     func(item interface{})
-	False    func(item interface{})
+var Nil = mono(nil, isEqual)
+var NotNil = mono(nil, isNotEqual)
+var True = mono(true, isEqual)
+var False = mono(true, isNotEqual)
+var Equal = pair(isEqual)
+var NotEqual = pair(isNotEqual)
+
+func mono(exp interface{}, cond func(exp, act interface{}) bool) func(exp interface{}) func(*testing.T) {
+	return func(act interface{}) func(t *testing.T) {
+		return pair(cond)(exp, act)
+	}
 }
 
-func New(t *testing.T) assert {
-	return assert{
-		Equal:    pairCheck(t, isEqual),
-		NotEqual: pairCheck(t, isNotEqual),
-		Nil:      monoCheck(t, nil, isEqual),
-		NotNil:   monoCheck(t, nil, isNotEqual),
-		True:     monoCheck(t, true, isEqual),
-		False:    monoCheck(t, true, isNotEqual),
+func pair(cond func(exp, act interface{}) bool) func(exp, act interface{}) func(*testing.T) {
+	return func(exp, act interface{}) func(t *testing.T) {
+		return func(t *testing.T) {
+			if !cond(exp, act) {
+				printErr(t, exp, act)
+			}
+		}
 	}
 }
 
@@ -32,21 +35,7 @@ func isEqual(exp, act interface{}) bool {
 }
 
 func isNotEqual(exp, act interface{}) bool {
-	return !reflect.DeepEqual(exp, act)
-}
-
-func monoCheck(t *testing.T, exp interface{}, eq func(exp, act interface{}) bool) func(item interface{}) {
-	return func(item interface{}) {
-		pairCheck(t, eq)(exp, item)
-	}
-}
-
-func pairCheck(t *testing.T, cond func(exp, act interface{}) bool) func(exp, act interface{}) {
-	return func(exp, act interface{}) {
-		if !cond(exp, act) {
-			printErr(t, exp, act)
-		}
-	}
+	return !isEqual(exp, act)
 }
 
 var printErr = func(t *testing.T, exp, act interface{}) {

@@ -23,12 +23,11 @@ func TestIsEqualTo(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.Equal(test.exp, test.act)
+		Equal(test.exp, test.act)(t)
 		if ok != test.ok {
 			t.Errorf("Expected %v, actual: %v", test.exp, test.act)
 		}
@@ -56,12 +55,11 @@ func TestIsNotEqualTo(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.NotEqual(test.exp, test.act)
+		NotEqual(test.exp, test.act)(t)
 		if ok != test.ok {
 			t.Errorf("Expected %v, actual: %v", test.exp, test.act)
 		}
@@ -83,12 +81,11 @@ func TestIsNil(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.Nil(test.act)
+		Nil(test.act)(t)
 		if ok != test.isNil {
 			t.Errorf("Expected %v, actual: %v", test.isNil, ok)
 		}
@@ -110,12 +107,11 @@ func TestIsNotNil(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.NotNil(test.act)
+		NotNil(test.act)(t)
 		if ok != test.isNotNil {
 			t.Errorf("Expected %v, actual: %v", test.isNotNil, ok)
 		}
@@ -141,12 +137,11 @@ func TestIsTrue(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.True(test.act)
+		True(test.act)(t)
 		if ok != test.isTrue {
 			t.Errorf("Expected %v, actual: %v", test.isTrue, ok)
 		}
@@ -172,12 +167,11 @@ func TestIsFalse(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		asrt := New(t)
 		ok := true
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		asrt.False(test.act)
+		False(test.act)(t)
 		if ok != test.isFalse {
 			t.Errorf("Expected %v, actual: %v", test.isFalse, ok)
 		}
