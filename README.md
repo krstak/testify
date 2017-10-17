@@ -10,14 +10,11 @@ go get github.com/krstak/testify
 
 ```go
 func TestTestify(t *testing.T) {
-    testify.Equal("super", "super")(t)
-    testify.NotEqual("car", "street")(t)
-    testify.Nil(nil)(t)
-    testify.NotNil("house")(t)
-    testify.True(10 > 2)(t)
-    testify.False(10 == 2)(t)
+    testify.Equal(t)("super", "super")
+    testify.NotEqual(t)("car", "street")
+    testify.Nil(t)(nil)
+    testify.NotNil(t)("house")
+    testify.True(t)(10 > 2)
+    testify.False(t)(10 == 2)
 }
 ```
-
-### Important
-Do not forget to call `(t)` function at the end of assertion.

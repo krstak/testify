@@ -27,7 +27,7 @@ func TestIsEqualTo(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		Equal(test.exp, test.act)(t)
+		Equal(t)(test.exp, test.act)
 		if ok != test.ok {
 			t.Errorf("Expected %v, actual: %v", test.exp, test.act)
 		}
@@ -59,7 +59,7 @@ func TestIsNotEqualTo(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		NotEqual(test.exp, test.act)(t)
+		NotEqual(t)(test.exp, test.act)
 		if ok != test.ok {
 			t.Errorf("Expected %v, actual: %v", test.exp, test.act)
 		}
@@ -85,7 +85,7 @@ func TestIsNil(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		Nil(test.act)(t)
+		Nil(t)(test.act)
 		if ok != test.isNil {
 			t.Errorf("Expected %v, actual: %v", test.isNil, ok)
 		}
@@ -111,7 +111,7 @@ func TestIsNotNil(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		NotNil(test.act)(t)
+		NotNil(t)(test.act)
 		if ok != test.isNotNil {
 			t.Errorf("Expected %v, actual: %v", test.isNotNil, ok)
 		}
@@ -141,7 +141,7 @@ func TestIsTrue(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		True(test.act)(t)
+		True(t)(test.act)
 		if ok != test.isTrue {
 			t.Errorf("Expected %v, actual: %v", test.isTrue, ok)
 		}
@@ -171,7 +171,7 @@ func TestIsFalse(t *testing.T) {
 		printErr = func(t *testing.T, exp, act interface{}) {
 			ok = false
 		}
-		False(test.act)(t)
+		False(t)(test.act)
 		if ok != test.isFalse {
 			t.Errorf("Expected %v, actual: %v", test.isFalse, ok)
 		}
