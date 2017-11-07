@@ -24,7 +24,7 @@ func TestIsEqualTo(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		Equal(t)(test.exp, test.act)
@@ -56,7 +56,7 @@ func TestIsNotEqualTo(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		NotEqual(t)(test.exp, test.act)
@@ -82,7 +82,7 @@ func TestIsNil(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		Nil(t)(test.act)
@@ -108,7 +108,7 @@ func TestIsNotNil(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		NotNil(t)(test.act)
@@ -138,7 +138,7 @@ func TestIsTrue(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		True(t)(test.act)
@@ -153,13 +153,13 @@ func TestIsFalse(t *testing.T) {
 		act     interface{}
 		isFalse bool
 	}{
-		{act: 2, isFalse: true},
-		{act: int64(2), isFalse: true},
-		{act: nil, isFalse: true},
-		{act: "", isFalse: true},
-		{act: 2.34, isFalse: true},
+		{act: 2, isFalse: false},
+		{act: int64(2), isFalse: false},
+		{act: nil, isFalse: false},
+		{act: "", isFalse: false},
+		{act: 2.34, isFalse: false},
 		{act: true, isFalse: false},
-		{act: map[string]string{}, isFalse: true},
+		{act: map[string]string{}, isFalse: false},
 		{act: false, isFalse: true},
 		{act: (10 > 5), isFalse: false},
 		{act: (10 == 5), isFalse: true},
@@ -168,7 +168,7 @@ func TestIsFalse(t *testing.T) {
 
 	for _, test := range tests {
 		ok := true
-		printErr = func(t *testing.T, exp, act interface{}) {
+		printErr = func(t *testing.T, skip int, exp, act interface{}) {
 			ok = false
 		}
 		False(t)(test.act)
