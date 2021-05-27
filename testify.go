@@ -43,5 +43,5 @@ func isNotEqual(exp, act interface{}) bool {
 var printErr = func(t *testing.T, skip int, exp, act interface{}) {
 	_, b, l, _ := runtime.Caller(skip)
 	path := fmt.Sprintf("%s:%d", b, l)
-	t.Errorf("\n%s: \nexp value: %v (%s)\nact value: %v (%s)\n", path, exp, reflect.TypeOf(exp), act, reflect.TypeOf(act))
+	t.Fatalf("\n%s: \nexp value: %v (%s)\nact value: %v (%s)\n", path, exp, reflect.TypeOf(exp), act, reflect.TypeOf(act))
 }
